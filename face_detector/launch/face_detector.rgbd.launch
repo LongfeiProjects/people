@@ -30,9 +30,9 @@
     <arg name="classifier_name" value="frontalface" />
     <arg name="paramfile_classifier" value="$(arg paramfile_classifier)"/>
     <arg name="classifier_reliability" value="0.9"/>
-    <arg name="do_continuous" value="false" />
+    <arg name="do_continuous" value="true" />
     <arg name="do_publish_faces_of_unknown_size" value="false" />
-    <arg name="do_display" value="false" />
+    <arg name="do_display" value="true" />
     <arg name="use_rgbd" value="true" />
     <arg name="approximate_sync" value="true" />
   </include>
