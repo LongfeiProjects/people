@@ -771,6 +771,9 @@ private:
         if (one_face->status == "good")
         {
           color = cv::Scalar(0, 255, 0);
+          cv::rectangle(cv_image_out_,
+                      cv::Point(one_face->box2d.x, one_face->box2d.y),
+                      cv::Point(one_face->box2d.x + one_face->box2d.width, one_face->box2d.y + one_face->box2d.height), color, 4);
         }
         else if (one_face->status == "unknown")
         {
@@ -781,9 +784,6 @@ private:
           color = cv::Scalar(0, 0, 255);
         }
 
-        cv::rectangle(cv_image_out_,
-                      cv::Point(one_face->box2d.x, one_face->box2d.y),
-                      cv::Point(one_face->box2d.x + one_face->box2d.width, one_face->box2d.y + one_face->box2d.height), color, 4);
 
         if (do_display_face_id_) {
 
