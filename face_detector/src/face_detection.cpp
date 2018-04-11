@@ -198,7 +198,7 @@ public:
     max_id_(-1),
     quit_(false)
   {
-    ROS_INFO_STREAM_NAMED("face_detector", "Constructing FaceDetector.");
+    ROS_DEBUG_STREAM_NAMED("face_detector", "Constructing FaceDetector.");
 
     // Action stuff
     as_.registerGoalCallback(boost::bind(&FaceDetector::goalCB, this));
@@ -307,7 +307,7 @@ public:
     ros::SubscriberStatusCallback pos_pub_connect_cb = boost::bind(&FaceDetector::connectCb, this);
     ros::SubscriberStatusCallback cloud_pub_connect_cb = boost::bind(&FaceDetector::connectCb, this);
     if (do_continuous_)
-      ROS_INFO_STREAM_NAMED("face_detector", "You must subscribe to one of FaceDetector's outbound topics or else it will not publish anything.");
+      ROS_DEBUG_STREAM_NAMED("face_detector", "You must subscribe to one of FaceDetector's outbound topics or else it will not publish anything.");
 
     {
       boost::mutex::scoped_lock lock(connect_mutex_);
@@ -352,7 +352,7 @@ public:
     {
       if (do_continuous_ && cloud_pub_.getNumSubscribers() == 0 && pos_array_pub_.getNumSubscribers() == 0)
       {
-        ROS_INFO_STREAM_NAMED("face_detector", "You have unsubscribed to FaceDetector's outbound topics, so it will no longer publish anything.");
+        ROS_DEBUG_STREAM_NAMED("face_detector", "You have unsubscribed to FaceDetector's outbound topics, so it will no longer publish anything.");
         image_sub_.unsubscribe();
         depth_image_sub_.unsubscribe();
         c1_info_sub_.unsubscribe();
@@ -376,7 +376,7 @@ public:
     {
       if (do_continuous_ && cloud_pub_.getNumSubscribers() == 0 && pos_array_pub_.getNumSubscribers() == 0)
       {
-        ROS_INFO_STREAM_NAMED("face_detector", "You have unsubscribed to FaceDetector's outbound topics, so it will no longer publish anything.");
+        ROS_DEBUG_STREAM_NAMED("face_detector", "You have unsubscribed to FaceDetector's outbound topics, so it will no longer publish anything.");
         image_sub_.unsubscribe();
         disp_image_sub_.unsubscribe();
         c1_info_sub_.unsubscribe();
@@ -495,7 +495,7 @@ public:
     gettimeofday(&timeofday, NULL);
     ros::Time endtdetect = ros::Time().fromNSec(1e9 * timeofday.tv_sec + 1e3 * timeofday.tv_usec);
     ros::Duration diffdetect = endtdetect - starttdetect;
-    ROS_INFO_STREAM_NAMED("face_detector", "Detection duration = " << diffdetect.toSec() << "sec");
+    ROS_DEBUG_STREAM_NAMED("face_detector", "Detection duration = " << diffdetect.toSec() << "sec");
 
     matchAndDisplay(faces_vector, image->header);
   }
@@ -543,7 +543,7 @@ public:
     gettimeofday(&timeofday, NULL);
     ros::Time endtdetect = ros::Time().fromNSec(1e9 * timeofday.tv_sec + 1e3 * timeofday.tv_usec);
     ros::Duration diffdetect = endtdetect - starttdetect;
-    ROS_INFO_STREAM_NAMED("face_detector", "Detection duration = " << diffdetect.toSec() << "sec");
+    ROS_DEBUG_STREAM_NAMED("face_detector", "Detection duration = " << diffdetect.toSec() << "sec");
 
     matchAndDisplay(faces_vector, image->header);
   }
@@ -652,13 +652,13 @@ private:
               (*close_it).second.dist = mindist;
               (*close_it).second.pos = pos;
             }
-            ROS_INFO_STREAM_NAMED("face_detector", "Found face to match with id " << pos.object_id);
+            ROS_DEBUG_STREAM_NAMED("face_detector", "Found face to match with id " << pos.object_id);
           }
           else
           {
             max_id_++;
             pos.object_id = static_cast<ostringstream*>(&(ostringstream() << max_id_))->str();
-            ROS_INFO_STREAM_NAMED("face_detector", "Didn't find face to match, starting new ID " << pos.object_id);
+            ROS_DEBUG_STREAM_NAMED("face_detector", "Didn't find face to match, starting new ID " << pos.object_id);
           }
           result_.face_positions.push_back(pos);
           found_faces = true;
@@ -746,7 +746,7 @@ private:
 
     /******** Done display **********************************************************/
 
-    ROS_INFO_STREAM_NAMED("face_detector", "Number of faces found: " << faces_vector.size() << ", number with good depth and size: " << ngood);
+    ROS_DEBUG_STREAM_NAMED("face_detector", "Number of faces found: " << faces_vector.size() << ", number with good depth and size: " << ngood);
 
     // If you don't want continuous processing and you've found at least one face, turn off the detector.
     if (!do_continuous_ && found_faces)
